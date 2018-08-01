@@ -9,22 +9,31 @@ body {
 	font-family: sans-serif;
 	margin-left: 2em;
 	background-color: #D3D3D3;
-	width: 800px;
+	width: 1000px;
 	border: 1px solid black;
 	box-shadow: 5px 5px 0 0;
 	margin-left: auto;
 	margin-right: auto;
+	background-image: url("back_test.jpg");
+	background-attachment: fixed;
+	font-weight: bold;
 	}
 
 header {
 	border-bottom: 1px solid black;
 	background-color: darkgray;
+	box-shadow: 5px 5px 0 0;
+	background-image: url("test2.jpg");
 	}
 
+li {
+	margin-top: 15px;
+}
+
 header h1 {
-	margin-left: 2em;
-	font-size: 300%;
-	color: black;
+	margin-left: 1em;
+	font-size: 400%;
+	font-style: italic;
 		}
 
 header h2 {
@@ -34,6 +43,10 @@ header h2 {
 
 main {
 	margin-left: 2em;
+	margin-right: 2em;
+	font-size: 130%;
+	font-weight: bold;
+	color: black;
 	/*background-color: #A8A8A8;*/
 	}
 	
@@ -41,8 +54,8 @@ main h3 {
 	font-size: 150%;
 	}
 	
-main h3::first-letter {
-	font-size: 200%;
+main h2::first-letter {
+	font-size: 130%;
 	}
 
 main h4 {
@@ -73,177 +86,134 @@ footer {
 	font-size: 100%
 	}
 
+#quotes {
+	font-size: 130%;
+}
+
 button {
 	font-weight: bold;
 	font-size: 90%;
 	border: 1px solid black;
 	background-color: darkgray;
 	}
+	
+.gradient {
+/* IE10+ */ 
+background-image: -ms-linear-gradient(bottom, #000000 0%, #202120 50%, #000000 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(bottom, #000000 0%, #202120 50%, #000000 100%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(bottom, #000000 0%, #202120 50%, #000000 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000), color-stop(50, #202120), color-stop(100, #000000));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(bottom, #000000 0%, #202120 50%, #000000 100%);
+
+/* W3C Markup */ 
+background-image: linear-gradient(to top, #000000 0%, #202120 50%, #000000 100%);
+color:transparent;
+-webkit-background-clip: text;
+background-clip: text;
+}
+
+ul.menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;  
+    text-align: right;  
+}
+
+ul.menu li {
+    display: inline;
+    padding: 6px;
+    margin-right: 2em;
+}
+
+ul.menu li a {
+	color: black;
+	font-size: 150%;
+}
 	</style>
-	<title>Encrypter</title>
+	<title>Rifles</title>
 	<meta charset="utf-8">
 	<div id="top">
-	<h3>Choose Key: </h3>
-	<input type="file" name="file" id="file">
-	<label>Key Size: </label>
-	<input type="text" name="key" id="key_size" size = "5" value=""/>
-	<button type="button" onclick="key_length = change_keynum()">Change</button>
-    &nbsp;
-    <span id = "key"></span>
-	<p></p>
-	<form>
-	<input type="radio" name="sec" id="0" value="least">Normal<br>
-	<input type="radio" name="sec" id="5" value="max2" checked>Kill Switch at Collision
-	</form> 
+	<p>Freedom isn't FREE anymore
+	<ul class="menu">
+		<li><a href="index.htm">Home</a></li>
+		<li><a href="info.html">Information</a></li>
+		<li><a href="contact.html">Contact</a></li>
+		<li><a href="about.html">About</a></li>
+	</ul>
+	</p>
 	</div>
-	<script>
-	var possibles = [];
-	var key_length = document.getElementById('key_size').value;
-	var ciphers = [];
-	var item = {};
-	document.getElementById('file').onchange = function(){
-	var file = this.files[0];
-	var reader = new FileReader();
-	reader.onload = function(progressEvent){
-    console.log(this.result);
-    var text = "";
-    var lines = this.result.split('[');
-    for(var line = 0; line < lines.length; line++){
-      console.log(lines[line]);
-      var list = (lines[line]).split('|');
-	  var all_items = String(list[1]).replace("]", "").trim();
-	  var list_2 = all_items.split(" ");
-	  var keys = String(list[0]);
-	  possibles.push(keys);
-	  item[keys] = list_2;
-    }
-  };
-  reader.readAsText(file);
-};
-
-	function get_ciphers() {
-	const plain = document.getElementById('plaintext').value;
-	var least = "no";
-	var num_sec;
-	//document.getElementById('print').innerHTML = plain;
-	if (document.getElementById('0').checked) {
-		num_sec = .001;
-		var least = "yes";
-		}
-	if (document.getElementById('5').checked) {
-		num_sec = 1;
-		}
-	var list = plain.split("");
-	var len = list.length;
-	var count = 0, to_print = "", count2 = 0;
-	var maximum = Math.round(key_length*num_sec)
-	for (i = 0; i < len; i++) {
-		if (list[i] == '\n')
-			list[i] = list[i].replace(list[i], "+");
-		if (possibles.includes(list[i]) == false)
-			list[i] = list[i].replace(list[i], "*");
-		for (var x in item) {
-			if (x == list[i]) {
-				count2 = 0;
-				while (0 == 0) {
-				count2 += 1;
-				if (count2 == key_length) {
-					document.getElementById('print2').innerHTML = "Program has shut down due to a repeated character.<br>Turn off Kill Switch Mode to continue with same input.";
-					return; }
-				var num = Math.floor((Math.random() * key_length));
-				console.log(num);
-				var sub_list = item[x];
-				var ciphertext = sub_list[num];
-				if (least == "yes")
-					break;
-				if (count2 > maximum)
-					break;
-				if (ciphers.includes(ciphertext))
-					continue;
-				else 
-					break; 
-				 }
-				ciphers.push(ciphertext);
-				to_print += ciphertext + "|";
-				count += 1;
-				if (count % 5 == 0)
-					to_print += "<br>";
-				}
-			
-				}
-	}
-	document.getElementById('print2').innerHTML = to_print;
-
-}
-
-	function reset() {
-	//document.getElementById('print').innerHTML = '';
-	document.getElementById('print2').innerHTML = '';
-	return [];
-}
-
-function saveTextAsFile()
-{
-	var key = String(document.getElementById('file').value);
-	var filename = "ciphertext(key" + key + ")";
-	filename = filename.replace("fakepath", "").replace("C", "").replace("__", "");
-    var textToWrite = ciphers.join("|");
-    var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
-    var fileNameToSaveAs = filename;
-      var downloadLink = document.createElement("a");
-    downloadLink.download = fileNameToSaveAs;
-    downloadLink.innerHTML = "Download File";
-    if (window.URL != null)
-    {
-        // Chrome allows the link to be clicked
-        // without actually adding it to the DOM.
-        downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
-    }
-    else
-    {
-        // Firefox requires the link to be added to the DOM
-        // before it can be clicked.
-        downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
-        downloadLink.onclick = destroyClickedElement;
-        downloadLink.style.display = "none";
-        document.body.appendChild(downloadLink);
-    }
-
-    downloadLink.click();
-}
-	function print_webpage() {
-		document.write(ciphers.join("|"));
-	}
-	function change_keynum() {
-		var num = document.getElementById('key_size').value;
-		document.getElementById('key').innerHTML = num;
-		return num; }
-		
-
-	</script>
+	
 </head>	
 
 <body>
 	
 <header>
-	<h1><b>Text Encrypter</b></h1>
+	<h1><b><span class="gradient">1st Tennessee Rifles UMIT</span></b></h1>
 </header>
 <br><br>
 
 <main>
-	<h3><b>Enter the text.</b></h3>
 	<div id="content">
-	<h2>Plaintext:</h2>
-	<textarea name="Text1" cols="70" rows="15" id="plaintext"></textarea>
-	<p><button type="button" onclick="ciphers = reset();get_ciphers()">Generate</button>&nbsp;
-	<button type="button" onclick="ciphers = reset()">Reset</button>&nbsp;
-	<button type="button" onclick="saveTextAsFile()">Save To Textfile</button>&nbsp;
-	<button type="button" onclick="print_webpage()">Print To Blank Webpage</button></p>
-	<h2>Ciphertext:</h2>
-	<p><span id = "print2"></span></p>
-	<br><br>
-	<h4><a href="decrypter.html">Decrypter</a></h4>
-	<h4><a href="settings.pdf">Settings</a></h4>
+	<h2>Policy</h2>
+	<p>The Volunteer Militia exists by law under Amendment II of the United States Constitution, U.S.C. Title 10 Subtitle A. Part I, Chapter 13, Section 311, and the Tennessee State Constitution, Article I, Sections 24 and 26.
+
+Our purpose is to uphold the United States and Tennessee State Constitutions, defend against foreign and domestic enemies, execute and safeguard the laws of the Union, suppress insurrection and repel invasions. We adhere to the literal and original intent of the United States Constitution and Bill of Rights as put forth by the Founding Fathers and hold those principles inviolate. We reject any philosophy of supremacy based on race or gender.
+
+
+A well-regulated militia, being necessary to the security of a free
+state, the right of the people to keep and bear arms, shall not be
+infringed." Amendment Two, of the U.S. Constitution</p>
+	<h2>What We Are About</h2>
+	<p>What is important to the militia is what is important to all Americans. We are concerned with the health of this nation. Militia members are a cross section of the American people. Many of us have been active in the political realm to voice our opinion to our elected leaders. Our voice has yet to be heard. We will not tolerate any trouble makers, Jew haters, bigots, racists, dissenters of any type first and foremost. We are here to reestablish the Militias reputation. The militia is a formation of communities. This is true now as it was throughout the history of this land. We the people have gathered together to form one voice in the hope that we will be heard.
+
+Our communities are banding together across this country to form one voice which is getting louder each day. It is not the guns of the militia that our government fears, we have not fired a single shot. The people are uniting together as one to bring out the truth, justice and liberty that we are Americans!  The 1st Tennessee Rifles are not a "Anti-Government" hate club or occult of any type.  As an "Unorganized" militia we will assist local and state government in times where manpower has been exhausted.  We stand against enemies both foreign and domestic. We are the "Original" Oath Keepers, according to the US Constitution, as our forefathers deemed it to be.</p>
+	<h2>Our Purpose</h2>
+	<p>
+	In Tennessee, the Governor may call into service the unorganized militia, only in the event that the General Assembly shall declare by law that the public safety requires it. For the 1st TN RIFLES UMIT, it is important that ordinary citizens, otherwise known as the "unorganized militia," be at least modestly prepared to serve their State and Country,  in such a capacity. And, it is important that in the meantime, ordinary citizens be modestly prepared to take care of themselves, their families, and communities at all times, as well as in times of economic or social unrest or for any type of disaster that should occur, to always be ready.
+
+ Our purpose is to educate and prepare Tennessee citizens to be law-abiding, self-sufficient individuals, families, and leaders of their communities, capable of fulfilling their duty, if called upon by their State in times of need. To be self-preserving in essence, in all things. To be prepared for whatever may come their way and knowing they can depend on their selves for survival and depend on others who have become a part of this organization. a Community of like-minded individuals.
+	</p>
+	<h2>Militia Defense Condition<br>
+	Our Current Threat Level: <font color="yellow">YELLOW</font></h2><br><br>
+	<div id="quotes">
+	<h2>Quotes of the Month</h2>
+	</div>
+	<ul>
+	<li>"If you put the federal government in charge of the Sahara Desert, in 5 years there'd be a shortage of sand." -- Milton Friedman.</li>
+	<li>"I never give them hell, I just tell the truth, and they think its hell."--Harry S. Truman</li>
+	<li>"I would rather be exposed to the inconveniences attending too much liberty than to those attending too small a degree of it." - Thomas Jefferson</li>
+	<li>"In a time of universal deceit, telling the truth is a revolutionary act!" ---George Orwell</li>
+	<li>"Real courage is found, not in the willingness to risk death, but in the willingness to stand, alone if necessary, against the ignorant and disapproving  herd."— Jon Roland, 1976</li>
+	<li>“A patriot must always be ready to defend his country against his government.” -Edward Abbey</li>
+	<li>"Is life so dear, or peace so sweet, as to be purchased at the price of chains and slavery? Forbid it, Almighty God! I know not what course others may take; but as for me, give me liberty or give me death!" -- Patrick Henry, March 23, 1775</li>
+	<li>"On the Plains of Hesitation lie the blackened bones of countless millions who, at the dawn of victory, sat down to rest, and died resting."</li>
+	<li>"It is not easy to conceive a possibility that dangers so formidable can assail the whole Union, as to demand a force, (Standing Army), considerable enough to place our liberties in the least jeopardy, especially if we take into our view the aid to be derived from the militia, which ought always to be counted upon as a valuable and powerful auxiliary." - Alexander Hamilton</li>
+	<li>"I believe that banking institutions are more dangerous to our liberties than standing armies... if the American people ever allow private banks to control the issue of currency...the banks and corporations that will grow up around them will deprive the people of all property until their children will wake up homeless on the continent that their fathers conquered." --Thomas Jefferson</li>
+	<li>"Whoever appeals to the law against his fellow man is either a fool or a coward. Whoever cannot take care of themselves without that law is both. For a wounded man shall say to his assailant, "If I Live, I will kill you, If I Die, You are forgiven." Such is the Rule of Honor."</li>
+	<li>"An artificial image of a democracy is a poor substitute for a real one. A government by the globalists and for the globalists, regardless of what the voters say, is NOT democracy."--James Northstar</li>
+	<li>"God grants liberty only to those who love it, and are always ready to guard and defend it." --Daniel Webster</li>
+	<li>"The Constitutions of most of our states (and of the United States) assert that all power is inherent in the people; that they may exercise it by themselves; that it is their right and duty to be at all times armed." ----- Thomas Jefferson</li>
+	<li>"Knowledge will forever govern ignorance, and a people who mean to be their own governors must arm themselves with the power which knowledge gives." -- James Madison</li>
+	<li>"The very atmosphere of firearms anywhere and everywhere restrains evil interference- they deserve a place of honor with all that is good."----George Washington</li>
+	<li>"If you will not fight for right when you can easily win without bloodshed; if you will not fight when your victory will be sure and not too costly; you may come to the moment when you will have to fight with all odds against you and only a precarious chance of survival. There may be even a worse fate. You may have to fight when there is no hope of victory, because it is better to perish than to live as slaves." -----Winston Churchill"</li>
+	<li>"If GOD has got you to it------GOD will get you through it"</li>
+	<li>"One man's terrorist is another man's Freedom Fighter." When the first Patriot is called a Terrorist, take it for what it is, a Declaration of War</li>
+	<li>"He that leadeth into captivity shall go into captivity: he that killeth with the sword must be killed with the sword. Here is the patience and the faith of the saints."-----------Revelation 13:10.</li>
+	<li>"On every question of construction of the Constitution, let us carry ourselves back to the time when the Constitution was adopted, recollect the spirit manifested in the debates, and instead of trying what meaning may be squeezed out of the text, or invented against it, conform to the probable one in which it was passed."---------Thomas Jefferson</li>
+	<li>"In the beginning of a change, the Patriot is a scarce man, brave, hated and scorned. When his cause succeeds, however, the timid soon join him, for then it costs nothing to be a Patriot." ---------Mark Twain</li>
+	<li>"Socialism is the philosophy of failure, the creed of ignorance and the gospel of envy." ------- Winston Churchill</li>
+	<li>No country has ever voted its way out of a Tyranny"----JK</li>
+	<li>"I  believe that banking institutions are more dangerous to our liberties than standing armies. If the American people ever  allow private banks to control the issue of their currency, first by  inflation, then by deflation, the banks and corporations that will  grow up around the banks will deprive the people of all property  until their children wake-up homeless on the continent their fathers  conquered.."---Thomas Jefferson 1802</li>
+	<li>“If cowardly and dishonorable men sometimes shoot unarmed men with army pistols or guns, the evil must be prevented by the penitentiary and gallows, and not by a general deprivation of a constitutional privilege." - Arkansas Supreme Court, 1878</li>
+	</ul>
 	</div>
 
 	
