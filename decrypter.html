@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head> <!-- heading section -->
+	<!--<link rel="stylesheet" href="style.css">-->
+	<style media="screen" type="text/css">
+body {
+	font-family: sans-serif;
+	margin-left: 2em;
+	background-color: #D3D3D3;
+	width: 800px;
+	border: 1px solid black;
+	box-shadow: 5px 5px 0 0;
+	margin-left: auto;
+	margin-right: auto;
+	}
+
+header {
+	border-bottom: 1px solid black;
+	background-color: darkgray;
+	}
+
+header h1 {
+	margin-left: 2em;
+	font-size: 300%;
+	color: black;
+		}
+
+header h2 {
+	margin-left: 2em;
+	font-size: 200%;
+	}
+
+main {
+	margin-left: 2em;
+	/*background-color: #A8A8A8;*/
+	}
+	
+main h3 {
+	font-size: 150%;
+	}
+	
+main h3::first-letter {
+	font-size: 200%;
+	}
+
+main h4 {
+	font-size: 150%;
+	}
+
+main a {
+	font-weight: bold;
+	color: grey;
+	}
+	
+footer h4 {
+	text-align: center;
+	font-size: 80%;
+	}
+
+footer {
+	border-top: 1px solid black;
+	background-color: silver;
+	}
+
+#top {
+	margin-left: 2em;
+	}
+
+#content {
+	font-weight: bold;
+	font-size: 100%
+	}
+
+button {
+	font-weight: bold;
+	font-size: 90%;
+	border: 1px solid black;
+	background-color: darkgray;
+	}
+	</style>
+	<title>Decrypter</title>
+	<meta charset="utf-8">
+	<header>
+	<h1><b>Text Decrypter</b></h1>
+	</header>
+	<div id="top">
+	<h3>Choose Key: </h3>
+	<p><b>(Must be chosen before ciphertext file)</b></p>
+	<input type="file" name="file1" id="file"><br><br>
+	<h3>Choose File or Type in Manually: </h3>
+	<input type="file" name="file2" id="in_file">
+	</div>
+	<script>
+	String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+    };
+	var item = [];
+	document.getElementById('file').onchange = function(){
+	var file = this.files[0];
+	var reader = new FileReader();
+	reader.onload = function(progressEvent){
+    //console.log(this.result);
+    var lines = this.result.split('[');
+    let len = lines.length
+    while (--len >= 0){
+      //console.log(lines[len]);
+      var list = (lines[len]).split('|');
+	  //var all_items = String(list[1]).replace("]", "").trim().split(" ");
+	  var all_items = String(list[1]).replace("]", "").trim();
+	  //var list_2 = all_items.split(" ");
+	  var keys = String(list[0]);
+	  //item.push([keys, all_items]);
+	  item.push(keys + "|" + all_items);
+    }
+    console.log(item);
+  };
+  reader.readAsText(file);
+};
+
+	document.getElementById('in_file').onchange = function(){
+	var plaintext = [];
+	var file = this.files[0];
+	var reader = new FileReader();
+	reader.onload = function(progressEvent){
+    var lines = this.result.trim().split('|');
+    let line = lines.length;
+    while (--line >= 0){
+      let line2 = item.length;
+      while (--line2 >= 0) {
+		if (lines[line].replaceAll(" ", "") == '')
+			continue;
+		if (item[line2].includes(lines[line].trim())) {
+			var temp = item[line2].split("|");
+			plaintext.push(temp[0]); 
+			}
+		 }
+		}
+ 
+  var to_print = (plaintext.reverse().join(""));
+  printer = to_print.replaceAll("+", "<br>");
+  document.getElementById('print').innerHTML = printer;
+  };
+  reader.readAsText(file);
+  
+};
+
+function decrypt_text() {
+	document.getElementById('print').innerHTML = "";
+	var plaintext = [];
+	const input = document.getElementById('plaintext').value.trim();
+	var lines = input.split("|");
+    let line = lines.length;
+    //document.write(lines);
+    while (--line >= 0){
+      let line2 = item.length;
+      while (--line2 >= 0) {
+		if (lines[line].replaceAll(" ", "") == '')
+			continue;
+		if (item[line2].includes(lines[line].trim())) {
+			var temp = item[line2].split("|");
+			plaintext.push(temp[0]); 
+			}
+		 }
+		}
+	var to_print2 = (plaintext.reverse().join(""));
+	printer2 = to_print2.replaceAll("+", "<br>");
+	document.getElementById('print').innerHTML = printer2;
+};
+		
+	
+	</script>
+	<body>
+		<main>
+			<br><br>
+			<textarea name="Text1" cols="70" rows="15" id="plaintext"></textarea><br>
+			<button type="button" onclick="decrypt_text()">Decrypt Text</button>&nbsp;
+			<h2>Plaintext:</h2>
+			<p><span id = "print"></span></p><br><br>
+			<h4><a href="encrypter.htm">Encrypter</a></h4>
+		</main>
+	</body>
+	
+	</html>
+	

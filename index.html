@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head> <!-- heading section -->
+	<!--<link rel="stylesheet" href="style.css">-->
+	<style media="screen" type="text/css">
+body {
+	font-family: sans-serif;
+	margin-left: 2em;
+	background-color: #D3D3D3;
+	width: 800px;
+	border: 1px solid black;
+	box-shadow: 5px 5px 0 0;
+	margin-left: auto;
+	margin-right: auto;
+	}
+
+header {
+	border-bottom: 1px solid black;
+	background-color: darkgray;
+	}
+
+header h1 {
+	margin-left: 2em;
+	font-size: 300%;
+	color: black;
+		}
+
+header h2 {
+	margin-left: 2em;
+	font-size: 200%;
+	}
+
+main {
+	margin-left: 2em;
+	/*background-color: #A8A8A8;*/
+	}
+	
+main h3 {
+	font-size: 150%;
+	}
+	
+main h3::first-letter {
+	font-size: 200%;
+	}
+
+main h4 {
+	font-size: 150%;
+	}
+
+main a {
+	font-weight: bold;
+	color: grey;
+	}
+	
+footer h4 {
+	text-align: center;
+	font-size: 80%;
+	}
+
+footer {
+	border-top: 1px solid black;
+	background-color: silver;
+	}
+
+#top {
+	margin-left: 2em;
+	}
+
+#content {
+	font-weight: bold;
+	font-size: 100%
+	}
+
+button {
+	font-weight: bold;
+	font-size: 90%;
+	border: 1px solid black;
+	background-color: darkgray;
+	}
+	</style>
+	<title>Encrypter</title>
+	<meta charset="utf-8">
+	<div id="top">
+	<h3>Choose Key: </h3>
+	<input type="file" name="file" id="file">
+	<label>Key Size: </label>
+	<input type="text" name="key" id="key_size" size = "5" value=""/>
+	<button type="button" onclick="key_length = change_keynum()">Change</button>
+    &nbsp;
+    <span id = "key"></span>
+	<p></p>
+	<form>
+	<input type="radio" name="sec" id="0" value="least">Normal<br>
+	<input type="radio" name="sec" id="5" value="max2" checked>Kill Switch at Collision
+	</form> 
+	</div>
+	<script>
+	var possibles = [];
+	var key_length = document.getElementById('key_size').value;
+	var ciphers = [];
+	var item = {};
+	document.getElementById('file').onchange = function(){
+	var file = this.files[0];
+	var reader = new FileReader();
+	reader.onload = function(progressEvent){
+    console.log(this.result);
+    var text = "";
+    var lines = this.result.split('[');
+    for(var line = 0; line < lines.length; line++){
+      console.log(lines[line]);
+      var list = (lines[line]).split('|');
+	  var all_items = String(list[1]).replace("]", "").trim();
+	  var list_2 = all_items.split(" ");
+	  var keys = String(list[0]);
+	  possibles.push(keys);
+	  item[keys] = list_2;
+    }
+  };
+  reader.readAsText(file);
+};
+
+	function get_ciphers() {
+	const plain = document.getElementById('plaintext').value;
+	var least = "no";
+	var num_sec;
+	//document.getElementById('print').innerHTML = plain;
+	if (document.getElementById('0').checked) {
+		num_sec = .001;
+		var least = "yes";
+		}
+	if (document.getElementById('5').checked) {
+		num_sec = 1;
+		}
+	var list = plain.split("");
+	var len = list.length;
+	var count = 0, to_print = "", count2 = 0;
+	var maximum = Math.round(key_length*num_sec)
+	for (i = 0; i < len; i++) {
+		if (list[i] == '\n')
+			list[i] = list[i].replace(list[i], "+");
+		if (possibles.includes(list[i]) == false)
+			list[i] = list[i].replace(list[i], "*");
+		for (var x in item) {
+			if (x == list[i]) {
+				count2 = 0;
+				while (0 == 0) {
+				count2 += 1;
+				if (count2 == key_length) {
+					document.getElementById('print2').innerHTML = "Program has shut down due to a repeated character.<br>Turn off Kill Switch Mode to continue with same input.";
+					return; }
+				var num = Math.floor((Math.random() * key_length));
+				console.log(num);
+				var sub_list = item[x];
+				var ciphertext = sub_list[num];
+				if (least == "yes")
+					break;
+				if (count2 > maximum)
+					break;
+				if (ciphers.includes(ciphertext))
+					continue;
+				else 
+					break; 
+				 }
+				ciphers.push(ciphertext);
+				to_print += ciphertext + "|";
+				count += 1;
+				if (count % 5 == 0)
+					to_print += "<br>";
+				}
+			
+				}
+	}
+	document.getElementById('print2').innerHTML = to_print;
+
+}
+
+	function reset() {
+	//document.getElementById('print').innerHTML = '';
+	document.getElementById('print2').innerHTML = '';
+	return [];
+}
+
+function saveTextAsFile()
+{
+	var key = String(document.getElementById('file').value);
+	var filename = "ciphertext(key" + key + ")";
+	filename = filename.replace("fakepath", "").replace("C", "").replace("__", "");
+    var textToWrite = ciphers.join("|");
+    var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
+    var fileNameToSaveAs = filename;
+      var downloadLink = document.createElement("a");
+    downloadLink.download = fileNameToSaveAs;
+    downloadLink.innerHTML = "Download File";
+    if (window.URL != null)
+    {
+        // Chrome allows the link to be clicked
+        // without actually adding it to the DOM.
+        downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+    }
+    else
+    {
+        // Firefox requires the link to be added to the DOM
+        // before it can be clicked.
+        downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+        downloadLink.onclick = destroyClickedElement;
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+    }
+
+    downloadLink.click();
+}
+	function print_webpage() {
+		document.write(ciphers.join("|"));
+	}
+	function change_keynum() {
+		var num = document.getElementById('key_size').value;
+		document.getElementById('key').innerHTML = num;
+		return num; }
+		
+
+	</script>
+</head>	
+
+<body>
+	
+<header>
+	<h1><b>Text Encrypter</b></h1>
+</header>
+<br><br>
+
+<main>
+	<h3><b>Enter the text.</b></h3>
+	<div id="content">
+	<h2>Plaintext:</h2>
+	<textarea name="Text1" cols="70" rows="15" id="plaintext"></textarea>
+	<p><button type="button" onclick="ciphers = reset();get_ciphers()">Generate</button>&nbsp;
+	<button type="button" onclick="ciphers = reset()">Reset</button>&nbsp;
+	<button type="button" onclick="saveTextAsFile()">Save To Textfile</button>&nbsp;
+	<button type="button" onclick="print_webpage()">Print To Blank Webpage</button></p>
+	<h2>Ciphertext:</h2>
+	<p><span id = "print2"></span></p>
+	<br><br>
+	<h4><a href="decrypter.htm">Decrypter</a></h4>
+	<h4><a href="settings.pdf">Settings</a></h4>
+	</div>
+
+	
+</main>
+
+</body>
+
+</html>
