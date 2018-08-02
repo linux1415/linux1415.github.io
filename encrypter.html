@@ -125,7 +125,6 @@ button {
 	const plain = document.getElementById('plaintext').value;
 	var least = "no";
 	var num_sec;
-	//document.getElementById('print').innerHTML = plain;
 	if (document.getElementById('0').checked) {
 		num_sec = .001;
 		var least = "yes";
@@ -148,7 +147,7 @@ button {
 				while (0 == 0) {
 				count2 += 1;
 				if (count2 == key_length) {
-					document.getElementById('print2').innerHTML = "Program has shut down due to a repeated character.<br>Turn off Kill Switch Mode to continue with same input.";
+					document.myform.outputtext.value = "Program has shut down due to a repeated character.\nTurn off Kill Switch Mode to continue with same input.";
 					return; }
 				var num = Math.floor((Math.random() * key_length));
 				console.log(num);
@@ -172,13 +171,12 @@ button {
 			
 				}
 	}
-	document.getElementById('print2').innerHTML = to_print;
+	document.myform.outputtext.value = ciphers.join("|");
 
 }
 
 	function reset() {
-	//document.getElementById('print').innerHTML = '';
-	document.getElementById('print2').innerHTML = '';
+	document.myform.outputtext.value = "";
 	return [];
 }
 
@@ -238,9 +236,10 @@ function saveTextAsFile()
 	<p><button type="button" onclick="ciphers = reset();get_ciphers()">Generate</button>&nbsp;
 	<button type="button" onclick="ciphers = reset()">Reset</button>&nbsp;
 	<button type="button" onclick="saveTextAsFile()">Save To Textfile</button>&nbsp;
-	<button type="button" onclick="print_webpage()">Print To Blank Webpage</button></p>
 	<h2>Ciphertext:</h2>
-	<p><span id = "print2"></span></p>
+	<form name ="myform">
+	<textarea name="outputtext" cols="70" rows="15"></textarea>
+	</form>
 	<br><br>
 	<h4><a href="decrypter.html">Decrypter</a></h4>
 	<h4><a href="settings.pdf">Settings</a></h4>
