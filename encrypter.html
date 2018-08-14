@@ -1,3 +1,7 @@
+<!--
+Version 1 8-14-18
+-->
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -90,11 +94,6 @@ button {
 	<div id="top">
 	<h3>Choose Key: </h3>
 	<input type="file" name="file" id="file">
-	<label>Key Size: </label>
-	<input type="text" name="key" id="key_size" size = "5" value=""/>
-	<button type="button" onclick="key_length = change_keynum()">Change</button>
-    &nbsp;
-    <span id = "key"></span>
 	<p></p>
 	<form>
 	<input type="radio" name="sec" id="0" value="least">Normal<br>
@@ -103,7 +102,6 @@ button {
 	</div>
 	<script>
 	var possibles = [];
-	var key_length = document.getElementById('key_size').value;
 	var ciphers = [];
 	var item = {};
 	document.getElementById('file').onchange = function(){
@@ -137,6 +135,8 @@ button {
 	if (document.getElementById('5').checked) {
 		num_sec = 1;
 		}
+	var key_length = item[Object.keys(item)[0]].length;
+	console.log(key_length);
 	var list = plain.split("");
 	var len = list.length;
 	var count = 0, to_print = "", count2 = 0;
@@ -218,10 +218,6 @@ function saveTextAsFile()
 	function print_webpage() {
 		document.write(ciphers.join("|"));
 	}
-	function change_keynum() {
-		var num = document.getElementById('key_size').value;
-		document.getElementById('key').innerHTML = num;
-		return num; }
 
 function letterValue(str){
     var anum={

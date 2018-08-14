@@ -1,3 +1,7 @@
+<!--
+Version 1 8-14-18
+-->
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -156,7 +160,9 @@ button {
 function decrypt_text() {
 	document.getElementById('print').innerHTML = "";
 	var plaintext = [];
-	const input = document.getElementById('plaintext').value.trim();
+	var input = document.getElementById('plaintext').value.trim();
+	if (!(input.includes("|")))
+		input = decodeURIComponent(escape(window.atob(input))); //if base64 encoding not working, then comment this line out
 	var lines = input.split("|");
     let line = lines.length;
     //document.write(lines);
