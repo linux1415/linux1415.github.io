@@ -84,6 +84,10 @@ button {
 	margin-left: 2em;
 	margin-top: 1em;
 }
+
+main a {
+	color: black;
+}
 	</style>
 	<title>OTP</title>
 	<meta charset="utf-8">
@@ -242,12 +246,14 @@ function saveTextAsFile()
 	<button type="button" onclick="ciphers = reset()">Reset</button>&nbsp;
 	<h2>Ciphertext:</h2>
 	<form name ="myform">
-	<textarea name="outputtext" cols="70" rows="15"></textarea>
+	<textarea name="outputtext" cols="70" rows="15"></textarea><br>
+	<label>To select all: click within the text and then hit Ctrl A on your keyboard.</label>
 	</form>
 	<br><br>
 	</div>
 	<button type="button" onclick="saveTextAsFile()">Save Ciphertext To Textfile (only works with chrome browser)</button>&nbsp;
 	<br><br>
+	<h4><a style="color:black" href="index.html">Home</a></h4>
 	<h4><a href="decrypter.html">Decrypter</a></h4>
 	<h4><a href="info.html">Information</a></h4><br><br>
 	<p>Sample One Time Pads (right click and "save link as"):<br>

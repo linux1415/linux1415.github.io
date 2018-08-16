@@ -89,6 +89,10 @@ button {
 	margin-right: 2em;
 	}
 
+main a {
+	color: black;
+}
+
 	</style>
 	<title>Decrypter</title>
 	<meta charset="utf-8">
@@ -134,7 +138,10 @@ button {
 	var file = this.files[0];
 	var reader = new FileReader();
 	reader.onload = function(progressEvent){
-    var lines = this.result.trim().split('|');
+	var lines = this.result.trim();
+	if (!(lines.includes("|")))
+		lines = decodeURIComponent(escape(window.atob(lines)));
+    var lines = lines.split('|');
     let line = lines.length;
     while (--line >= 0){
       let line2 = item.length;
@@ -308,9 +315,11 @@ function passcode_go()	{
 			<button type="button" onclick="decrypt_text()">Decrypt Text</button>&nbsp;<br><br>
 			<h2>Plaintext:</h2>
 			<form name ="myform">
-			<textarea name="outputtext" cols="70" rows="15"></textarea>
+			<textarea name="outputtext" cols="70" rows="15"></textarea><br>
+			<label><b>To select all: click within the text and then hit Ctrl A on your keyboard.</b></label>
 			</form>
 			<p><span id = "print"></span></p><br><br>
+			<h4><a style="color:black" href="index.html">Home</a></h4>
 			<h4><a href="encrypter.html">Encrypter</a></h4>
 		</main>
 	</body>

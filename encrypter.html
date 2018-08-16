@@ -88,14 +88,26 @@ button {
 	border-style: solid;
 	margin-right: 2em;
 	}
+#top > h4 {
+	float: right; 
+	margin-right: 2em;}
+	
+a {
+	color: black;
+}
+
+#content > a {
+	color: black;
+}
 	</style>
 	<title>Encrypter</title>
 	<meta charset="utf-8">
 	<div id="top">
 	<h3>Choose Key: </h3>
 	<input type="file" name="file" id="file">
-	<p></p>
+	<h4><a href="en_info.html">Instructions (right click > open link in new tab)</a></h4>
 	<form>
+	<br>
 	<input type="radio" name="sec" id="0" value="least">Normal<br>
 	<input type="radio" name="sec" id="5" value="max2" checked>Kill Switch at Collision
 	</form> 
@@ -306,24 +318,25 @@ function passcode_go()	{
 	<button type="button" onclick="ciphers = reset()">Reset</button>&nbsp;
 	<h2>Ciphertext:</h2>
 	<form name ="myform">
-	<textarea name="outputtext" cols="70" rows="15"></textarea>
+	<textarea name="outputtext" cols="70" rows="15"></textarea><br>
+	<label>To select all: click within the text and then hit Ctrl A on your keyboard.</label>
 	</form>
 	<br><br>
 	<div id = "level2">
 	<p>&nbsp;&nbsp;<b>Level 2 Encryption Only:</b></p>
 	<label>&nbsp;&nbsp;Number Code:</label>
-	<input type="text" name="num_keys" id="num1" size = "2" placeholder = "0"/>
-	<input type="text" name="num_keys" id="num2" size = "2" placeholder = "0"/>
-	<input type="text" name="num_keys" id="num3" size = "2" placeholder = "0"/>
-	<input type="text" name="num_keys" id="num4" size = "2" placeholder = "0"/>
-	<input type="text" name="num_keys" id="num5" size = "2" placeholder = "0"/>
-	<input type="text" name="num_keys" id="num6" size = "2" placeholder = "0"/>
-	<input type="text" name="num_keys" id="num7" size = "2" placeholder = "0"/>
-	<input type="text" name="num_keys" id="num8" size = "2" placeholder = "0"/>
-	<input type="text" name="num_keys" id="num9" size = "2" placeholder = "0"/>
-	<input type="text" name="num_keys" id="num10" size = "2" placeholder = "0"/>
-	<input type="text" name="num_keys" id="num11" size = "2" placeholder = "0"/>
-	<input type="text" name="num_keys" id="num12" size = "2" placeholder = "0"/>
+	<input type="text" name="num_keys" id="num1" size = "2" placeholder = "0" style="font-size:14pt;height:20px;width:35px;"/>
+	<input type="text" name="num_keys" id="num2" size = "2" placeholder = "0" style="font-size:14pt;height:20px;width:35px;"/>
+	<input type="text" name="num_keys" id="num3" size = "2" placeholder = "0"style="font-size:14pt;height:20px;width:35px;"/>
+	<input type="text" name="num_keys" id="num4" size = "2" placeholder = "0"style="font-size:14pt;height:20px;width:35px;"/>
+	<input type="text" name="num_keys" id="num5" size = "2" placeholder = "0"style="font-size:14pt;height:20px;width:35px;"/>
+	<input type="text" name="num_keys" id="num6" size = "2" placeholder = "0"style="font-size:14pt;height:20px;width:35px;"/>
+	<input type="text" name="num_keys" id="num7" size = "2" placeholder = "0"style="font-size:14pt;height:20px;width:35px;"/>
+	<input type="text" name="num_keys" id="num8" size = "2" placeholder = "0"style="font-size:14pt;height:20px;width:35px;"/>
+	<input type="text" name="num_keys" id="num9" size = "2" placeholder = "0"style="font-size:14pt;height:20px;width:35px;"/>
+	<input type="text" name="num_keys" id="num10" size = "2" placeholder = "0"style="font-size:14pt;height:20px;width:35px;"/>
+	<input type="text" name="num_keys" id="num11" size = "2" placeholder = "0"style="font-size:14pt;height:20px;width:35px;"/>
+	<input type="text" name="num_keys" id="num12" size = "2" placeholder = "0"style="font-size:14pt;height:20px;width:35px;"/>
 	<br><br><label>&nbsp;&nbsp;Passcode:</label>
 	<input id="passcode" type="text" style="font-size:20pt;height:25px;width:250px;"/><br><br>
 	&nbsp;&nbsp;<button type="button" onclick="passcode_go()">Encrypt Level 2</button><br><br>
@@ -331,11 +344,12 @@ function passcode_go()	{
 	<br><br><br><br><br>
 	<button type="button" onclick="saveTextAsFile()">Save Ciphertext To Textfile (only works with chrome browser)</button>&nbsp;
 	<br><br>
-	<h4><a href="decrypter.html">Decrypter</a></h4>
-	<h4><a href="info.html">Information</a></h4><br><br>
-	<p>Sample Keys (right click and "save link as"):<br>
-	<a href="sample.txt">Key (key size: 1000)</a><br>
-	<a href="sample_small.txt">Key (key size: 250)</a><br><br><br></p>
+	<h4><a style="color:black" href="index.html">Home</a></h4>
+	<h4><a style="color:black" href="decrypter.html">Decrypter</a></h4>
+	<h4><a style="color:black" href="info.html">Information</a></h4><br><br>
+	<p>Sample Keys (right click and "save link as"):<br><br>
+	<a style="color:black" href="sample.txt">Key (key size: 1000)</a><br>
+	<a style="color:black" href="sample_small.txt">Key (key size: 250)</a><br><br><br></p>
 	</div>
 
 	
