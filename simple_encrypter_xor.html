@@ -101,44 +101,17 @@ li {
 </head>
 
 <script>
-//use XOR and addition
+//uses XOR
 
-function letterValue(str){
-    var anum={
-        a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, h: 8, i: 9, j: 10, k: 11, 
-        l: 12, m: 13, n: 14, o: 15, p: 16, q: 17, r: 18, s: 19, t: 20, 
-        u: 21, v: 22, w: 23, x: 24, y: 25, z: 26, A: 27, B: 28, C: 29, D: 30, E: 31, F: 32, G: 33, H: 34, I: 35, J: 36, K: 37, 
-        L: 38, M: 39, N: 40, O: 41, P: 42, Q: 43, R: 44, S: 45, T: 46, 
-        U: 47, V: 48, W: 49, X: 50, Y: 51, Z: 52, 0: 53, 1: 54, 2: 55, 3: 56, 4: 57, 5: 58, 6: 59, 7: 60, 8: 61, 9: 62, "\\": 63, "=": 64
-    }
-    if(str.length== 1) return anum[str] || ' ';
-    return str.split('').map(letterValue);
-}
-
-
-function getValue(str){
-    var num_object={
-        1: "a", 2: "b", 3: "c", 4: "d", 5: "e", 6: "f", 7: "g", 8: "h", 9: "i", 10: "j", 11: "k", 
-        12: "l", 13: "m", 14: "n", 15: "o", 16: "p", 17: "q", 18: "r", 19: "s", 20: "t", 
-        21: "u", 22: "v", 23: "w", 24: "x", 25: "y", 26: "z", 27: "A", 28: "B", 29: "C", 30: "D", 31: "E", 32: "F", 33: "G", 34: "H", 35: "I", 36: "J", 37: "K", 
-        38: "L", 39: "M", 40: "N", 41: "O", 42: "P", 43: "Q", 44: "R", 45: "S", 46: "T", 
-        47: "U", 48: "V", 49: "W", 50: "X", 51: "Y", 52: "Z", 53: 0, 54: 1, 55: 2, 56: 3, 57: 4, 58: 5, 59: 6, 60: 7, 61: 8, 62: 9, "63": "\\", "64": "="
-    }
-    for (var item in num_object) {
-		if (item == str)
-			return num_object[item];
-	}
-
-    
-};
 function get_pass() {
-	document.getElementById('passcode').value
-	var pass_key = document.getElementById('passcode').value;
-	var pass_key = btoa(unescape(encodeURIComponent(pass_key.trim())));
+	var pass_key = document.getElementById('passcode').value.trim();
 	return pass_key;
 
 }
 function en() {
+	var ascii_pass = [];
+	var ascii_text = [];
+	var array = [];
 	if (document.plain.plaint.value.trim() == "") {
 		document.getElementById('span').innerHTML = "Error";
 		return; }
@@ -146,35 +119,42 @@ function en() {
 		document.getElementById('span').innerHTML = "Error";
 		return; }
 	document.getElementById('span').innerHTML = "Ok";
-	var array = [];
 	var text = document.plain.plaint.value.trim();
-	var b64 = btoa(unescape(encodeURIComponent(text)));
-	var plain_size = b64.length;
 	var pass = get_pass();
-	pass_size = pass.length;
-	document.getElementById('pl_size').innerHTML = plain_size;
-	document.getElementById('p_size').innerHTML = pass_size;
-	while (pass.length < b64.length) {
+	t_len = text.length;
+	p_len = pass.length;
+	document.getElementById('pl_size').innerHTML = text.length;
+	document.getElementById('p_size').innerHTML = pass.length;
+	while (pass.length < text.length) {
 		pass += pass; }
-	var str_array = letterValue(b64);
-	var pass_array = letterValue(pass);
 	var count = 0;
+	while (pass.length > count) {
+		ascii_pass.push(pass[count].charCodeAt(0));
+		count ++;
+	}
+	count = 0;
+	while (text.length > count) {
+		ascii_text.push(text[count].charCodeAt(0));
+		count ++;
+	}
+	count = 0;
 	var num;
-	while (count < b64.length) {
-		num = parseInt(str_array[count]) + parseInt(pass_array[count]);
-		num = num ^ parseInt(pass_array[count]);
+	while (text.length > count){
+		num = ascii_text[count] ^ ascii_pass[count];
 		array.push(num);
-		count += 1
+		count ++;
 	}
 	document.cipher.ciphert.value = btoa(unescape(encodeURIComponent(array.join("|"))));
 	console.log(array);
-	if (pass_size >= plain_size)
+	if (p_len >= t_len)
 		document.getElementById('span').innerHTML = "Message should be unbreakable if key is only used once.";
 
-	console.log("done");
+
 }
 
 function de() {
+	var ascii_pass = [];
+	var final_text = [];
 	if (document.cipher.ciphert.value.trim() == "") {
 		document.getElementById('span').innerHTML = "Error";
 		return; }
@@ -183,29 +163,32 @@ function de() {
 		return; }
 	document.getElementById('span').innerHTML = "Ok";
 	var array = [];
-	var array2 = [];
 	var ciphertext = document.cipher.ciphert.value.trim();
 	var num_string = decodeURIComponent(escape(window.atob(ciphertext)));
 	num_string = num_string.split("|");
 	var pass = get_pass();
 	while (pass.length < num_string.length) {
 		pass += pass; }
-	var pass_array = letterValue(pass);
+	var count = 0;
+	while (pass.length > count) {
+		ascii_pass.push(pass[count].charCodeAt(0));
+		count ++;
+	}
 	var count = 0;
 	var num;
 	while (count < num_string.length) {
-		num = parseInt(num_string[count]) ^ parseInt(pass_array[count]);
-		num = parseInt(num) - parseInt(pass_array[count]);
+		num = ascii_pass[count] ^ num_string[count];
 		array.push(num);
 		count += 1
 	}
 	count = 0;
 	while (count < array.length) {
-		array2.push(getValue(array[count]));
+		num = String.fromCharCode(array[count]);
+		final_text.push(num);
 		count += 1;
 	}
-	final_t = decodeURIComponent(escape(window.atob(array2.join(""))));
-	document.plain.plaint.value = final_t;
+	
+	document.plain.plaint.value = final_text.join("");
 	
 }
 
@@ -243,7 +226,7 @@ function clear_c() {
 	<label>Plaintext:&nbsp;</label>&nbsp;&nbsp;<button type="button" onclick="clear_p()">Clear</button>
 	&nbsp;&nbsp;<label>Size:&nbsp;</label><span id="pl_size"></span>
  <br><br>
-	<textarea name="plaint" cols="85" rows="10"></textarea><br><br>
+	<textarea name="plaint" cols="85" rows="10" ></textarea><br><br>
 	</form>
 <form name ="cipher">
 	<label>Ciphertext:&nbsp;</label>&nbsp;&nbsp;<button type="button" onclick="clear_c()">Clear</button>
@@ -261,10 +244,10 @@ function clear_c() {
 </div>
 <p><b>Information:</b></p>
 <ul>
-<li>If passcode size is greater than or equal to plaintext size, message should be unbreakable; this of course is assuming passcode is not susceptible to brute force.</li>
+<li>If key size is greater than or equal to plaintext size, message should be unbreakable; this of course is assuming passcode is not susceptible to brute force.</li>
 <li>The strength of the encryption is completely dependent on the strength of the key. The closer the key length is to the plaintext length, the stronger the encryption will be.</li>
 <li>Key can be composed of anything, including spaces; although, if there are leading or trailing spaces, they will be stripped off.</li>
-<li><b>How does the encryption work: </b>First, the plaintext and key are converted to base64; then, the base64 of both are converted to their associated numbers (64 in total). The numbers are then added together. These numbers are then converted to base64. This is similar to how a one time pad is created.</li>
+<li><b>How does the encryption work: </b>Plaintext and Key are converted to ascii encoding and then the bytes from the key and plaintext are XOR'd together. The result is then converted to base64. Decryption is the reverse.</li>
 </ul><br><br>
 </main>
 </body>
