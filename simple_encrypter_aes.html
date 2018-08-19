@@ -38,6 +38,7 @@ header h2 {
 
 main {
 	margin-left: 2em;
+	margin-right: 2em;
 	/*background-color: #A8A8A8;*/
 	}
 	
@@ -79,7 +80,7 @@ footer {
 
 button {
 	font-weight: bold;
-	font-size: 100%;
+	font-size: 125%;
 	border: 1px solid black;
 	background-color: darkgray;
 	}
@@ -126,9 +127,6 @@ function en() {
 	var encryptionKey = window.crypto.getRandomValues(new Uint8Array(32));
 	console.log(btoa(unescape(encodeURIComponent(encryptionKey))));
 	document.cipher.ciphert.value = encrypted;
-	if (myPassword.length >= to_encrypt.length)
-		document.getElementById('span').innerHTML = "Message should be unbreakable if key is only used once.";
-
 }
 
 function de() {
@@ -171,7 +169,7 @@ function clear_c() {
 <body>
 	
 <header>
-	<h1><b>Simple Encrypter</b></h1>
+	<h1><b>AES Encrypter</b></h1>
 </header>
 
 <main>
@@ -199,10 +197,9 @@ function clear_c() {
 </div>
 <p><b>Information:</b></p>
 <ul>
-<li>If key size is greater than or equal to plaintext size, message should be unbreakable; this of course is assuming passcode is not susceptible to brute force.</li>
-<li>The strength of the encryption is completely dependent on the strength of the key. The closer the key length is to the plaintext length, the stronger the encryption will be.</li>
+<li>The strength of the encryption is largely dependent on the strength of the key. If the same key is going to be used many times, or indefinitely, it should be at least 20 characters in order for security to be guaranteed.</li>
 <li>Key can be composed of anything, including spaces; although, if there are leading or trailing spaces, they will be stripped off.</li>
-<li><b>How does the encryption work: </b>Plaintext and Key are converted to ascii encoding and then the bytes from the key and plaintext are XOR'd together. The result is then converted to base64. Decryption is the reverse.</li>
+<li><b>How does the encryption work: </b>encryption is done using the AES-256 (Advanced Encryption Standard) cipher. AES is the gold standard for symmetric encryption algorithms and is used by the United States government to protect classified information.</li>
 </ul><br><br>
 </main>
 </body>

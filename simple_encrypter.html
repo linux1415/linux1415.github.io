@@ -38,6 +38,7 @@ header h2 {
 
 main {
 	margin-left: 2em;
+	margin-right: 2em;
 	/*background-color: #A8A8A8;*/
 	}
 	
@@ -79,7 +80,7 @@ footer {
 
 button {
 	font-weight: bold;
-	font-size: 100%;
+	font-size: 125%;
 	border: 1px solid black;
 	background-color: darkgray;
 	}
@@ -233,7 +234,7 @@ function clear_c() {
 <body>
 	
 <header>
-	<h1><b>Simple Encrypter</b></h1>
+	<h1><b>XOR and Addition Encrypter</b></h1>
 </header>
 
 <main>
@@ -264,7 +265,7 @@ function clear_c() {
 <li>If passcode size is greater than or equal to plaintext size, message should be unbreakable; this of course is assuming passcode is not susceptible to brute force.</li>
 <li>The strength of the encryption is completely dependent on the strength of the key. The closer the key length is to the plaintext length, the stronger the encryption will be.</li>
 <li>Key can be composed of anything, including spaces; although, if there are leading or trailing spaces, they will be stripped off.</li>
-<li><b>How does the encryption work: </b>First, the plaintext and key are converted to base64; then, the base64 of both are converted to their associated numbers (64 in total). The numbers are then added together. These numbers are then converted to base64. This is similar to how a one time pad is created.</li>
+<li><b>How does the encryption work: </b>First, the plaintext and key are converted to base64; then, the base64 of both are converted to their associated numbers (64 in total). The numbers are then added together and then XOR'd to the key. These numbers are then converted to base64. This is similar to how a one time pad is created, but with the extra step of addition.</li>
 </ul><br><br>
 </main>
 </body>

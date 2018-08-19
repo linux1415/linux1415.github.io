@@ -23,7 +23,7 @@ header {
 
 header h1 {
 	margin-left: 2em;
-	font-size: 300%;
+	font-size: 200%;
 	color: black;
 		}
 
@@ -100,116 +100,19 @@ main a {
 <body>
 	
 <header>
-	<h1><b>Welcome</b></h1>
+	<h1><b>Encryption Suite</b></h1>
 </header>
 <br><br>
 
 <main>
-	<h1><a href="simple_encrypter.html">Simple Encrytper</a></h1>
-	<h1><a href="simple_encrypter_aes.html">Simple Encrytper using AES</a></h1>
-	<h1><a href="simple_encrypter_xor.html">Simple Encrytper using XOR</a></h1>
-	<h1><a href="encrypter.html">Standard Encrypter</a></h1>
-	<h1><a href="decrypter.html">Standard Decrypter</a></h1>
-	<h1><a href="one_time_pad.html">One Time Pad Creator</a></h1>
-	<h1><a href="key_gen.html">Key Generator</a></h1>
-	<h1><a href="info.html">Information</a></h1>
+	<h1><a href="simple_encrypter_aes.html"> AES</a></h1>
+	<h1><a href="simple_encrypter_xor.html">One Time Pad using XOR</a></h1>
+	<h1><a href="simple_encrypter.html">XOR and Addition</a></h1>
+	<h1><a href="poly_index.html">Poly-Substitution</a></h1>
+	<h1><a href="key_gen_small.html">Key Generator (testing)</a></h1>
 	<br><br>
-	<h2><b>Note:</b> Do everything in the order that it appears on the page.<br>This ensures that the encryption or decryption is done properly.</h2>
 	</div>
-	
-		<h3>How does this system work?</h3>
-	<p>
-	Any key that is created/used by this system is, essentially, a very massive polyalphabetic substitution cipher. A substitution cipher is a cipher where there is a ciphertext alphabet and
-	the traditional alphabet; when encryption is done, each letter in the plaintext is replaced with the corresponding character from the ciphertext alphabet. In other words, all a's would become a specific 
-	character, all b's would become a specific character.<br><br><b>Here is an example of a simple substitution cipher:</b><br><br>
-A: B7<br>
-B: LE<br>
-C: ZX<br>
-D: HK<br>
-E: T7<br>
-F: WL<br>
-G: K3<br>
-H: 4N<br>
-I: 9P<br>
-J: EF<br>
-K: KN<br>
-L: 7F<br>
-M: XF<br>
-N: AC<br>
-O: GD<br>
-P: HH<br>
-Q: XT<br>
-R: T9<br>
-S: 3K<br>
-T: LL<br>
-U: 78<br>
-V: A2<br>
-W: TK<br>
-X: W6<br>
-Y: A3<br>
-Z: M3<br>
-0: FL<br>
-1: V4<br>
-2: TT<br>
-3: G9<br>
-4: 7M<br>
-5: 4Gp<br>
-6: LY<br>
-7: JJ<br>
-8: LP<br>
-9: 2L<br>
-<br>
-	This is an example of a simple substitution cipher where every letter in the alphabet is represented with only one character string. This is not secure and will be broken easily.
-	A polyalphabetic substitution cipher is where each letter of the alphabet (and numbers, etc.) is represented with numerous possibilites. For instance, all a's could be represented 
-	by character strings such as "7fyrh", "yeT5W", "W4nY3", etc, etc. So just one single letter could be represented by 10's, 100's, or even 1000's of possibilites. This is the way
-	the keys in this system work; each plaintext character - whether it be "a", "#", "8", "W", or any other of the possibilites - will be represented with a different ciphertext character
-	string when encryption is done.<br><br>
-	<b>Here is an example of polyalphabetic substitution cipher that could be done by hand:</b><br><br>
-A: JP|EV|WK|Z6|2G|AB|UA|62|UL|4M<br>
-B: TA|XD|AW|HU|AE|4L|UV|ZM|YJ|6P<br>
-C: RP|LL|TL|EA|ZN|HB|M3|8D|ZX|G6<br>
-D: 66|WB|PX|TU|J6|G9|VL|44|FR|PQ<br>
-E: JN|L2|DN|N4|JY|UF|Y6|3B|PZ|LR<br>
-F: RC|63|72|GX|3K|QK|KC|L6|RQ|HP<br>
-G: U7|ZZ|8P|6L|KR|ZV|FN|FQ|4W|YK<br>
-H: BM|LG|RV|Z8|CX|6K|YA|P6|2J|EQ<br>
-I: F2|TQ|VN|49|PH|4J|E9|LV|Q6|E8<br>
-J: L9|W7|GF|VY|JJ|VP|DY|M2|YB|NU<br>
-K: FY|W2|ZY|7T|KX|D8|FD|B6|V6|29<br>
-L: TN|G8|4H|73|UU|EY|MN|8F|UK|WU<br>
-M: CC|QH|GD|2A|CE|HV|8Z|Z4|2N|PE<br>
-N: XK|VA|PA|ZE|HD|FW|CL|2L|7R|MP<br>
-O: UJ|HG|PK|B2|JM|NA|4Q|7G|CF|DM<br>
-P: D4|37|BJ|U6|LM|PJ|3H|RG|V4|39<br>
-Q: UN|6U|C2|A4|EE|R6|97|CB|7E|9B<br>
-R: 78|4A|NC|HM|NW|RY|NQ|J2|7Q|BV<br>
-S: C9|N2|4F|E7|MV|84|WV|T8|VJ|3T<br>
-T: MT|MG|BL|24|QW|TR|WD|ZJ|XH|GV<br>
-U: 8A|HQ|F7|D3|AZ|U3|K9|V7|BT|8W<br>
-V: 93|ZF|XJ|WY|BF|NH|ZK|YH|9H|2C<br>
-W: 8X|QP|LJ|8R|LA|GU|PD|K8|B9|2V<br>
-X: EN|HA|XG|ZT|QF|JR|BX|HY|CU|DW<br>
-Y: HR|KZ|FF|CR|YE|88|ZB|EK|VW|UX<br>
-Z: L4|CH|9C|M9|C8|ZR|L8|6C|FK|8U<br>
-0: JV|KE|6V|YQ|3J|VV|WQ|HL|YL|2P<br>
-1: EZ|QX|LU|9A|VU|ZL|PP|NE|LC|ZD<br>
-2: NR|7V|TW|CN|Q3|BE|GP|9F|LE|FU<br>
-3: CA|XU|NG|3M|U9|TG|WR|NL|GJ|JF<br>
-4: WE|9Y|GA|XZ|QA|6Y|H7|8K|8M|C6<br>
-5: BG|KG|QT|KB|XX|RW|F9|PB|AP|A6<br>
-6: K6|DV|WH|WZ|P7|YR|Y8|H9|KV|UT<br>
-7: R3|WG|A2|LH|46|T3|3U|AJ|KY|CJ<br>
-8: 6E|6H|K7|X4|CZ|7L|YG|87|YU|9Z<br>
-9: FA|7F|JU|GQ|XR|DH|KL|HN|7B|T4
-<br><br>
-The digital keys used for encryption in this system are similar to the above, except instead of only 10 ciphertexts per plaintext character, there are hundreds or thousands.
-Also, when an individual ciphertext character string is used to represent a plaintext character, the ciphertext string is not used again in the message; this feature will make any message unbreakable
-if key is used only once. Each subsequent time a key is used, it will get slightly (very slightly) less secure; to mitigate this, level two encryption can be used. Level two encryption encrypts the ciphertext
-further based on a number code and passcode. The encryption used with level two is similar to that of a one time pad. Level two encryption allows one to use the same key many, many times as
-long as passcode and number code are changed frequently. 
-	</p>
 
-	
 </main>
 
 </body>
