@@ -160,6 +160,15 @@ function clear_c() {
 	document.cipher.ciphert.value = "";
 }
 
+function copy() {
+	var copyText = 	document.cipher.ciphert.value;
+	copyText.select();
+	document.execCommand("copy");
+}
+
+function copyToClipboard(text) {
+    window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+  }
 	
 
 
@@ -194,7 +203,8 @@ function clear_c() {
 &nbsp;&nbsp;<button type="button" onclick="re()">Clear All</button>
 <br><br>
 <label>Status:&nbsp;</label><span id="span">Go</span><br>
-</div>
+</div><br>
+<button onclick="copyToClipboard(document.cipher.ciphert.value)">Copy Ciphertext</button>
 <p><b>Information:</b></p>
 <ul>
 <li>The strength of the encryption is largely dependent on the strength of the key. If the same key is going to be used many times, or indefinitely, it should be at least 20 characters in order for security to be guaranteed.</li>
