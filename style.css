@@ -1,0 +1,39 @@
+@import url('Transparent.css');
+
+#wikiTreeContainer {
+    background-color: #000;
+}
+
+#fw-head {
+	background: transparent url('header.gif') no-repeat top left;
+}
+#fw-nav-menu ul {
+	background: transparent url('bg.png') repeat top left;
+}
+* html #fw-nav-menu .fw-nav-level-0 {
+	background-image: none;
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale src='bg.png');
+}
+.fw-paragraph {
+	background: transparent url('bg.png') repeat top left;
+}
+* html .fw-paragraph {
+	background-image: none;
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale src='bg.png');
+}
+
+a,a:visited {
+	color:#d6d6d6;
+}
+
+.fw-tertiary { background-color: #474747; border-color: #474747; color: #fff; }
+
+#fw-footer {
+	background: #000000;
+}
+.fwBlogEntryDisplay {
+	border-top: solid 5px #000000 !important;
+}
+.fwBlogCommentContainer{
+	border-top: solid 5px #000000 !important;
+}
