@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	
+<head> 
+<title>Simple Encrypter</title>
+<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<style media="screen" type="text/css">
+	
+body {
+	font-family: sans-serif;
+	margin-left: 2em;
+	background-color: #D3D3D3;
+	width: 800px;
+	border: 1px solid black;
+	box-shadow: 5px 5px 0 0;
+	margin-left: auto;
+	margin-right: auto;
+	}
+
+header {
+	border-bottom: 1px solid black;
+	background-color: darkgray;
+	}
+
+header h1 {
+	margin-left: 2em;
+	font-size: 200%
+	color: black;
+		}
+
+header h2 {
+	margin-left: 2em;
+	font-size: 200%;
+	}
+
+main {
+	margin-left: 2em;
+	margin-right: 2em;
+	/*background-color: #A8A8A8;*/
+	}
+	
+main h3 {
+	font-size: 150%;
+	}
+	
+main h3::first-letter {
+	font-size: 200%;
+	}
+
+main h4 {
+	font-size: 150%;
+	}
+
+main a {
+	font-weight: bold;
+	color: grey;
+	}
+	
+footer h4 {
+	text-align: center;
+	font-size: 80%;
+	}
+
+footer {
+	border-top: 1px solid black;
+	background-color: silver;
+	}
+
+#top {
+	margin-left: 2em;
+	}
+
+#content {
+	font-weight: bold;
+	font-size: 100%
+	}
+
+button {
+	font-weight: bold;
+	font-size: 125%;
+	border: 1px solid black;
+	background-color: darkgray;
+	}
+	
+#level2 {
+	border-style: solid;
+	margin-right: 2em;
+	}
+
+main a {
+	color: black;
+}
+
+li {
+	font-size: 115%;
+}
+</style>
+
+</head>
+
+<script>
+//uses XOR
+
+function get_pass() {
+	var pass_key = document.getElementById('passcode').value.trim();
+	return pass_key;
+
+}
+function en() {
+	var ascii_pass = [];
+	var ascii_text = [];
+	var array = [];
+	if (document.plain.plaint.value.trim() == "") {
+		document.getElementById('span').innerHTML = "Error";
+		return; }
+	if (document.getElementById('passcode').value.trim() == "") {
+		document.getElementById('span').innerHTML = "Error";
+		return; }
+	document.getElementById('span').innerHTML = "Ok";
+	var text = document.plain.plaint.value.trim();
+	var pass = get_pass();
+	t_len = text.length;
+	p_len = pass.length;
+	document.getElementById('pl_size').innerHTML = text.length;
+	document.getElementById('p_size').innerHTML = pass.length;
+	while (pass.length < text.length) {
+		pass += pass; }
+	var count = 0;
+	while (pass.length > count) {
+		ascii_pass.push(pass[count].charCodeAt(0));
+		count ++;
+	}
+	count = 0;
+	while (text.length > count) {
+		ascii_text.push(text[count].charCodeAt(0));
+		count ++;
+	}
+	count = 0;
+	var num;
+	while (text.length > count){
+		num = ascii_text[count] ^ ascii_pass[count];
+		array.push(num);
+		count ++;
+	}
+	document.cipher.ciphert.value = btoa(unescape(encodeURIComponent(array.join("|"))));
+	console.log(array);
+	if (p_len >= t_len)
+		document.getElementById('span').innerHTML = "Message should be unbreakable if key is only used once.";
+
+
+}
+
+function de() {
+	var ascii_pass = [];
+	var final_text = [];
+	if (document.cipher.ciphert.value.trim() == "") {
+		document.getElementById('span').innerHTML = "Error";
+		return; }
+	if (document.getElementById('passcode').value.trim() == "") {
+		document.getElementById('span').innerHTML = "Error";
+		return; }
+	document.getElementById('span').innerHTML = "Ok";
+	var array = [];
+	var ciphertext = document.cipher.ciphert.value.trim();
+	var num_string = decodeURIComponent(escape(window.atob(ciphertext)));
+	num_string = num_string.split("|");
+	var pass = get_pass();
+	while (pass.length < num_string.length) {
+		pass += pass; }
+	var count = 0;
+	while (pass.length > count) {
+		ascii_pass.push(pass[count].charCodeAt(0));
+		count ++;
+	}
+	var count = 0;
+	var num;
+	while (count < num_string.length) {
+		num = ascii_pass[count] ^ num_string[count];
+		array.push(num);
+		count += 1
+	}
+	count = 0;
+	while (count < array.length) {
+		num = String.fromCharCode(array[count]);
+		final_text.push(num);
+		count += 1;
+	}
+	
+	document.plain.plaint.value = final_text.join("");
+	
+}
+
+function re() {
+	document.plain.plaint.value = "";
+	document.cipher.ciphert.value = "";
+	document.getElementById('span').innerHTML = "Ok";
+
+}
+
+function clear_p() {
+	document.plain.plaint.value = "";
+}
+
+function clear_c() {
+	document.cipher.ciphert.value = "";
+}
+
+	
+
+
+
+</script>
+
+<body>
+	
+<header>
+	<h1><b>One Time Pad</b></h1>
+</header>
+
+<main>
+<div id="content">
+<br>
+<form name ="plain">
+	<label>Plaintext:&nbsp;</label>&nbsp;&nbsp;<button type="button" onclick="clear_p()">Clear</button>
+	&nbsp;&nbsp;<label>Size:&nbsp;</label><span id="pl_size"></span>
+ <br><br>
+	<textarea name="plaint" cols="85" rows="10" ></textarea><br><br>
+	</form>
+<form name ="cipher">
+	<label>Ciphertext:&nbsp;</label>&nbsp;&nbsp;<button type="button" onclick="clear_c()">Clear</button>
+ <br><br>
+	<textarea name="ciphert" cols="85" rows="10"></textarea><br><br>
+	</form>
+<label>Key:&nbsp;</label>
+<input id="passcode" type="text" style="font-size:16pt;height:25px;width:650px;"/><br><br>
+<label>Key Size:&nbsp;</label><span id="p_size"></span><br><br>
+<button type="button" onclick="en()">Encrypt</button>
+&nbsp;&nbsp;<button type="button" onclick="de()">Decrypt</button>
+&nbsp;&nbsp;<button type="button" onclick="re()">Clear All</button>
+<br><br>
+<label>Status:&nbsp;</label><span id="span">Go</span><br>
+</div>
+<p><b>Information:</b></p>
+<ul>
+<li>If key size is greater than or equal to plaintext size, message should be unbreakable; this of course is assuming passcode is not susceptible to brute force.</li>
+<li>The strength of the encryption is completely dependent on the strength of the key. The closer the key length is to the plaintext length, the stronger the encryption will be.</li>
+<li>Key can be composed of anything, including spaces; although, if there are leading or trailing spaces, they will be stripped off.</li>
+<li><b>How does the encryption work: </b>Plaintext and Key are converted to ascii encoding and then the bytes from the key and plaintext are XOR'd together. The result is then converted to base64. Decryption is the reverse.</li>
+</ul><br><br>
+</main>
+</body>
+</html>

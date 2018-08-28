@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	
+<head> 
+<title>Simple Encrypter</title>
+<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<style media="screen" type="text/css">
+	
+body {
+	font-family: sans-serif;
+	margin-left: 2em;
+	background-color: #D3D3D3;
+	width: 800px;
+	border: 1px solid black;
+	box-shadow: 5px 5px 0 0;
+	margin-left: auto;
+	margin-right: auto;
+	}
+
+header {
+	border-bottom: 1px solid black;
+	background-color: darkgray;
+	}
+
+header h1 {
+	margin-left: 2em;
+	font-size: 200%
+	color: black;
+		}
+
+header h2 {
+	margin-left: 2em;
+	font-size: 200%;
+	}
+
+main {
+	margin-left: 2em;
+	margin-right: 2em;
+	/*background-color: #A8A8A8;*/
+	}
+	
+main h3 {
+	font-size: 150%;
+	}
+	
+main h3::first-letter {
+	font-size: 200%;
+	}
+
+main h4 {
+	font-size: 150%;
+	}
+
+main a {
+	font-weight: bold;
+	color: grey;
+	}
+	
+footer h4 {
+	text-align: center;
+	font-size: 80%;
+	}
+
+footer {
+	border-top: 1px solid black;
+	background-color: silver;
+	}
+
+#top {
+	margin-left: 2em;
+	}
+
+#content {
+	font-weight: bold;
+	font-size: 100%
+	}
+
+button {
+	font-weight: bold;
+	font-size: 125%;
+	border: 1px solid black;
+	background-color: darkgray;
+	}
+	
+#level2 {
+	border-style: solid;
+	margin-right: 2em;
+	}
+
+main a {
+	color: black;
+}
+
+li {
+	font-size: 115%;
+}
+</style>
+
+</head>
+
+<script>
+//use XOR and addition
+
+function letterValue(str){
+    var anum={
+        a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, h: 8, i: 9, j: 10, k: 11, 
+        l: 12, m: 13, n: 14, o: 15, p: 16, q: 17, r: 18, s: 19, t: 20, 
+        u: 21, v: 22, w: 23, x: 24, y: 25, z: 26, A: 27, B: 28, C: 29, D: 30, E: 31, F: 32, G: 33, H: 34, I: 35, J: 36, K: 37, 
+        L: 38, M: 39, N: 40, O: 41, P: 42, Q: 43, R: 44, S: 45, T: 46, 
+        U: 47, V: 48, W: 49, X: 50, Y: 51, Z: 52, 0: 53, 1: 54, 2: 55, 3: 56, 4: 57, 5: 58, 6: 59, 7: 60, 8: 61, 9: 62, "\\": 63, "=": 64
+    }
+    if(str.length== 1) return anum[str] || ' ';
+    return str.split('').map(letterValue);
+}
+
+
+function getValue(str){
+    var num_object={
+        1: "a", 2: "b", 3: "c", 4: "d", 5: "e", 6: "f", 7: "g", 8: "h", 9: "i", 10: "j", 11: "k", 
+        12: "l", 13: "m", 14: "n", 15: "o", 16: "p", 17: "q", 18: "r", 19: "s", 20: "t", 
+        21: "u", 22: "v", 23: "w", 24: "x", 25: "y", 26: "z", 27: "A", 28: "B", 29: "C", 30: "D", 31: "E", 32: "F", 33: "G", 34: "H", 35: "I", 36: "J", 37: "K", 
+        38: "L", 39: "M", 40: "N", 41: "O", 42: "P", 43: "Q", 44: "R", 45: "S", 46: "T", 
+        47: "U", 48: "V", 49: "W", 50: "X", 51: "Y", 52: "Z", 53: 0, 54: 1, 55: 2, 56: 3, 57: 4, 58: 5, 59: 6, 60: 7, 61: 8, 62: 9, "63": "\\", "64": "="
+    }
+    for (var item in num_object) {
+		if (item == str)
+			return num_object[item];
+	}
+
+    
+};
+function get_pass() {
+	document.getElementById('passcode').value
+	var pass_key = document.getElementById('passcode').value;
+	var pass_key = btoa(unescape(encodeURIComponent(pass_key.trim())));
+	return pass_key;
+
+}
+function en() {
+	if (document.plain.plaint.value.trim() == "") {
+		document.getElementById('span').innerHTML = "Error";
+		return; }
+	if (document.getElementById('passcode').value.trim() == "") {
+		document.getElementById('span').innerHTML = "Error";
+		return; }
+	document.getElementById('span').innerHTML = "Ok";
+	var array = [];
+	var text = document.plain.plaint.value.trim();
+	var b64 = btoa(unescape(encodeURIComponent(text)));
+	var plain_size = b64.length;
+	var pass = get_pass();
+	pass_size = pass.length;
+	document.getElementById('pl_size').innerHTML = plain_size;
+	document.getElementById('p_size').innerHTML = pass_size;
+	while (pass.length < b64.length) {
+		pass += pass; }
+	var str_array = letterValue(b64);
+	var pass_array = letterValue(pass);
+	var count = 0;
+	var num;
+	while (count < b64.length) {
+		num = parseInt(str_array[count]) + parseInt(pass_array[count]);
+		num = num ^ parseInt(pass_array[count]);
+		array.push(num);
+		count += 1
+	}
+	document.cipher.ciphert.value = btoa(unescape(encodeURIComponent(array.join("|"))));
+	console.log(array);
+	if (pass_size >= plain_size)
+		document.getElementById('span').innerHTML = "Message should be unbreakable if key is only used once.";
+
+	console.log("done");
+}
+
+function de() {
+	if (document.cipher.ciphert.value.trim() == "") {
+		document.getElementById('span').innerHTML = "Error";
+		return; }
+	if (document.getElementById('passcode').value.trim() == "") {
+		document.getElementById('span').innerHTML = "Error";
+		return; }
+	document.getElementById('span').innerHTML = "Ok";
+	var array = [];
+	var array2 = [];
+	var ciphertext = document.cipher.ciphert.value.trim();
+	var num_string = decodeURIComponent(escape(window.atob(ciphertext)));
+	num_string = num_string.split("|");
+	var pass = get_pass();
+	while (pass.length < num_string.length) {
+		pass += pass; }
+	var pass_array = letterValue(pass);
+	var count = 0;
+	var num;
+	while (count < num_string.length) {
+		num = parseInt(num_string[count]) ^ parseInt(pass_array[count]);
+		num = parseInt(num) - parseInt(pass_array[count]);
+		array.push(num);
+		count += 1
+	}
+	count = 0;
+	while (count < array.length) {
+		array2.push(getValue(array[count]));
+		count += 1;
+	}
+	final_t = decodeURIComponent(escape(window.atob(array2.join(""))));
+	document.plain.plaint.value = final_t;
+	
+}
+
+function re() {
+	document.plain.plaint.value = "";
+	document.cipher.ciphert.value = "";
+	document.getElementById('span').innerHTML = "Ok";
+
+}
+
+function clear_p() {
+	document.plain.plaint.value = "";
+}
+
+function clear_c() {
+	document.cipher.ciphert.value = "";
+}
+
+	
+
+
+
+</script>
+
+<body>
+	
+<header>
+	<h1><b>XOR and Addition Encrypter</b></h1>
+</header>
+
+<main>
+<div id="content">
+<br>
+<form name ="plain">
+	<label>Plaintext:&nbsp;</label>&nbsp;&nbsp;<button type="button" onclick="clear_p()">Clear</button>
+	&nbsp;&nbsp;<label>Size:&nbsp;</label><span id="pl_size"></span>
+ <br><br>
+	<textarea name="plaint" cols="85" rows="10"></textarea><br><br>
+	</form>
+<form name ="cipher">
+	<label>Ciphertext:&nbsp;</label>&nbsp;&nbsp;<button type="button" onclick="clear_c()">Clear</button>
+ <br><br>
+	<textarea name="ciphert" cols="85" rows="10"></textarea><br><br>
+	</form>
+<label>Key:&nbsp;</label>
+<input id="passcode" type="text" style="font-size:16pt;height:25px;width:650px;"/><br><br>
+<label>Key Size:&nbsp;</label><span id="p_size"></span><br><br>
+<button type="button" onclick="en()">Encrypt</button>
+&nbsp;&nbsp;<button type="button" onclick="de()">Decrypt</button>
+&nbsp;&nbsp;<button type="button" onclick="re()">Clear All</button>
+<br><br>
+<label>Status:&nbsp;</label><span id="span">Go</span><br>
+</div>
+<p><b>Information:</b></p>
+<ul>
+<li>If passcode size is greater than or equal to plaintext size, message should be unbreakable; this of course is assuming passcode is not susceptible to brute force.</li>
+<li>The strength of the encryption is completely dependent on the strength of the key. The closer the key length is to the plaintext length, the stronger the encryption will be.</li>
+<li>Key can be composed of anything, including spaces; although, if there are leading or trailing spaces, they will be stripped off.</li>
+<li><b>How does the encryption work: </b>First, the plaintext and key are converted to base64; then, the base64 of both are converted to their associated numbers (64 in total). The numbers are then added together and then XOR'd to the key. These numbers are then converted to base64. This is similar to how a one time pad is created, but with the extra step of addition.</li>
+</ul><br><br>
+</main>
+</body>
+</html>

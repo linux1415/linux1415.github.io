@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<p><label>Desired Key Size:&nbsp;</label><input type="text" name="num_keys" id="num1" size = "2" placeholder = "0" style="font-size:14pt;height:20px;width:35px;"/>
+</p>
+<form name ="myform2">
+	<label><b>2. </b>Random Text:&nbsp;</label><button type="button" onclick="get_random()">Generate</button>&nbsp;<span id="ran_text"></span>
+ <br><br>
+	<textarea name="random" cols="35" rows="7">Enter random text here to help randomize output. Do this before choosing key gen file. The more the better.</textarea><br><br>
+</form>
+
+<script>
+var to_print = "";
+function get_random() {
+	array = [];
+	final_array = [];
+	var random_chars = document.myform2.random.value;
+	if (random_chars == "") {
+		document.getElementById('ran_text').innerHTML = "Error";
+		return; }
+	var b64 = btoa(unescape(encodeURIComponent(random_chars)));
+	var len_num = document.getElementById('num1').value;
+	if (len_num < 1)
+		return;
+	var encryptionKey = window.crypto.getRandomValues(new Uint8Array(len_num));
+	console.log(encryptionKey);
+	console.log(b64);
+	while (b64.length < encryptionKey)
+		b64 += b64;
+	count = 0;
+	while (encryptionKey.length > count) {
+		var num = b64[count].charCodeAt(0);
+		count ++;
+		array.push(num);
+	}
+	count = 0;
+	while (encryptionKey.length > count) {
+		var num_rand = array[Math.floor((Math.random() * array.length))];
+		//num = encryptionKey[count] ^ num_rand;
+		num = encryptionKey[count] + num_rand;
+		console.log((encryptionKey[count] ^ num_rand).toString(36).slice(-8));
+		count ++;
+		final_array.push(num.toString(16));
+		//if (num >= 32 && num <=126)
+		//	final_array.push(String.fromCharCode(num));
+		//else 
+		//final_array.push(num);
+	}
+	console.log(final_array);
+	document.getElementById('ran_text').innerHTML = "OK";
+	document.getElementById('len').innerHTML = len_num;
+	//document.out.random.value = final_array.join("");
+	final_str = btoa(unescape(encodeURIComponent(final_array.join(""))));
+	console.log(final_str.slice(0,-1));
+	//return;
+	while (final_str.length > len_num)
+		final_str = final_str.slice(0, -1);
+	to_print += (final_str + "\n");
+	document.out.random.value = to_print;
+	}
+</script>
+
+
+<form name ="out">
+	<label>Key:&nbsp;</label>&nbsp;&nbsp;&nbsp;<label>Length:&nbsp;</label><span id="len"></span>
+ <br><br>
+	<textarea name="random" cols="35" rows="7"></textarea><br><br>
+	</form>
+</html>
