@@ -1,0 +1,317 @@
+<!--
+12-15-18
+-->
+<!DOCTYPE html>
+
+<html lang="en">
+	
+<head> 
+<title>Simple Encrypter</title>
+<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+
+<style media="screen" type="text/css">
+	
+html {
+	background-color: grey;
+}
+body {
+	font-family: sans-serif;
+	margin-left: 2em;
+	background-color: #D3D3D3;
+	width: 800px;
+	border: 1px solid black;
+	box-shadow: 5px 5px 0 0;
+	margin-left: auto;
+	margin-right: auto;
+	}
+
+header {
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+	background-color: #D3D3D3;
+	margin-top: 2em;
+	}
+
+header h1 {
+	margin-left: 2em;
+	font-size: 200%
+	color: black;
+		}
+
+header h2 {
+	margin-left: 2em;
+	font-size: 200%;
+	}
+
+main {
+	margin-left: 2em;
+	margin-right: 2em;
+	}
+	
+main h3 {
+	font-size: 150%;
+	}
+	
+main h3::first-letter {
+	font-size: 200%;
+	}
+
+main h4 {
+	font-size: 150%;
+	}
+
+main a {
+	font-weight: bold;
+	color: grey;
+	}
+	
+footer h4 {
+	text-align: center;
+	font-size: 80%;
+	}
+
+footer {
+	border-top: 1px solid black;
+	background-color: silver;
+	}
+
+#top {
+	margin-left: 2em;
+	}
+
+#content {
+	font-weight: bold;
+	font-size: 100%
+	}
+
+button {
+	font-weight: bold;
+	font-size: 125%;
+	border: 1px solid black;
+	background-color: darkgray;
+	}
+	
+#level2 {
+	border-style: solid;
+	margin-right: 2em;
+	}
+
+main a {
+	color: black;
+}
+
+#list {
+	font-size: 110%;
+}
+
+#choice {
+	float: right;
+	margin-right: 2em;
+	margin-top: 1.5em;
+}
+</style>
+
+</head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+
+
+<script>
+
+function get_pass() {
+	var pass_key = document.getElementById('passcode').value.trim();
+	return pass_key;
+
+}
+function en() {
+	if (document.plain.plaint.value.trim() == "") {
+		document.getElementById('span').innerHTML = "Error";
+		return; }
+	if (document.getElementById('passcode').value.trim() == "") {
+		document.getElementById('span').innerHTML = "Error";
+		return; }
+	document.getElementById('span').innerHTML = "Ok";
+	var text = document.plain.plaint.value.trim();
+	var pass = get_pass();
+	t_len = text.length;
+	p_len = pass.length;
+	document.getElementById('pl_size').innerHTML = text.length;
+	document.getElementById('p_size').innerHTML = pass.length;
+	if (document.getElementById('otp').checked) {
+		var ascii_pass = [];
+		var ascii_text = [];
+		var array = [];
+		while (pass.length < text.length) {
+			pass += pass; }
+		var count = 0;
+		while (pass.length > count) {
+			ascii_pass.push(pass[count].charCodeAt(0));
+			count ++;
+		}
+		count = 0;
+		while (text.length > count) {
+			ascii_text.push(text[count].charCodeAt(0));
+			count ++;
+		}
+		count = 0;
+		var num;
+		while (text.length > count){
+			num = ascii_text[count] ^ ascii_pass[count];
+			array.push(num);
+			count ++;
+		}
+		document.cipher.ciphert.value = btoa(unescape(encodeURIComponent(array.join("|"))));
+	}
+	if (document.getElementById('aes').checked) {
+		var encrypted = CryptoJS.AES.encrypt(text, pass);
+		document.cipher.ciphert.value = encrypted;
+	}
+	if (p_len >= t_len)
+		document.getElementById('span').innerHTML = "Message should be unbreakable if key is only used once.";
+
+}
+
+function de() {
+	var ascii_pass = [];
+	var final_text = [];
+	if (document.cipher.ciphert.value.trim() == "") {
+		document.getElementById('span').innerHTML = "Error";
+		return; }
+	if (document.getElementById('passcode').value.trim() == "") {
+		document.getElementById('span').innerHTML = "Error";
+		return; }
+	document.getElementById('span').innerHTML = "Ok";
+	if (document.getElementById('otp').checked) {
+		var array = [];
+		var ciphertext = document.cipher.ciphert.value.trim();
+		var num_string = decodeURIComponent(escape(window.atob(ciphertext)));
+		num_string = num_string.split("|");
+		var pass = get_pass();
+		while (pass.length < num_string.length) {
+			pass += pass; }
+		var count = 0;
+		while (pass.length > count) {
+			ascii_pass.push(pass[count].charCodeAt(0));
+			count ++;
+		}
+		var count = 0;
+		var num;
+		while (count < num_string.length) {
+			num = ascii_pass[count] ^ num_string[count];
+			array.push(num);
+			count += 1
+		}
+		count = 0;
+		while (count < array.length) {
+			num = String.fromCharCode(array[count]);
+			final_text.push(num);
+			count += 1;
+		}
+		document.plain.plaint.value = final_text.join("");
+	}
+	if (document.getElementById('aes').checked) {
+		var ciphertext2 = document.cipher.ciphert.value.trim();
+		var myPassword = get_pass();
+		var decrypted = CryptoJS.AES.decrypt(ciphertext2, myPassword);
+		document.plain.plaint.value = decrypted.toString(CryptoJS.enc.Utf8);
+	}
+
+	
+}
+
+function re() {
+	document.plain.plaint.value = "";
+	document.cipher.ciphert.value = "";
+	document.getElementById('span').innerHTML = "Ok";
+
+}
+
+function clear_p() {
+	document.plain.plaint.value = "";
+}
+
+function clear_c() {
+	document.cipher.ciphert.value = "";
+}
+
+function Clipboard(text) {
+	alert("Copied");
+    if (window.clipboardData && window.clipboardData.setData) {
+        // IE specific code path to prevent textarea being shown while dialog is visible.
+        return clipboardData.setData("Text", text); 
+
+    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var textarea = document.createElement("textarea");
+        textarea.textContent = text;
+        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+        } catch (ex) {
+            console.warn("Copy to clipboard failed.", ex);
+            return false;
+        } finally {
+            document.body.removeChild(textarea);
+        }
+    }
+}
+	
+
+
+
+</script>
+
+<body>
+	
+<header>
+	<div id="choice">
+		<label>Encryption Type:</label>
+		<input type="radio" name="sec" id="aes" checked>AES
+		<input type="radio" name="sec" id="otp" >One Time Pad
+	</div>
+	<h1><b>Text Encrypter</b></h1>
+</header>
+
+<main>
+<div id="content">
+<br>
+<form name ="plain">
+	<label>Plaintext:&nbsp;</label>&nbsp;&nbsp;<button type="button" onclick="clear_p()">Clear</button>
+	&nbsp;&nbsp;<label>Size:&nbsp;</label><span id="pl_size"></span>
+ <br><br>
+	<textarea name="plaint" cols="85" rows="10" ></textarea><br><br>
+	</form>
+<form name ="cipher">
+	<label>Ciphertext:&nbsp;</label>&nbsp;&nbsp;<button type="button" onclick="clear_c()">Clear</button>
+ <br><br>
+	<textarea name="ciphert" cols="85" rows="10"></textarea><br><br>
+	</form>
+<button onclick="Clipboard(document.cipher.ciphert.value)">Copy Ciphertext</button><br><br>
+<label>Key:&nbsp;</label>
+<input id="passcode" type="text" style="font-size:16pt;height:25px;width:650px;"/><br><br>
+<label>Key Size:&nbsp;</label><span id="p_size"></span><br><br>
+<button type="button" onclick="en()">Encrypt</button>
+&nbsp;&nbsp;<button type="button" onclick="de()">Decrypt</button>
+&nbsp;&nbsp;<button type="button" onclick="re()">Clear All</button>
+<br><br>
+<label>Status:&nbsp;</label><span id="span">Go</span><br>
+</div>
+<div id="list">
+<p><b>Information:</b></p>
+<ul>
+<li><b>How does the encryption work:</b>
+<ul><li><b>One Time Pad:</b> Plaintext and Key are converted to ascii encoding and then the bytes from the key and plaintext are XOR'd together. The result is then converted to base64. Decryption is the reverse.<ul><li>The strength of the encryption is completely dependent on the strength of the key. The closer the key length is to the plaintext length, the stronger the encryption will be.</li>
+<li>If key size is greater than or equal to plaintext size, message should be unbreakable; this of course is assuming passcode is not susceptible to brute force.</li>
+</ul></li>
+<li><b>AES:</b> encryption is done using the AES-256 (Advanced Encryption Standard) cipher. AES is the gold standard for symmetric encryption algorithms and is used by the United States government to protect classified information.<ul><li>As long as key is not susceptible to brute force, encryption should be unbreakable with current technology.</li></ul></li></ul></li>
+<li>Key can be composed of anything, including spaces; although, if there are leading or trailing spaces, they will be stripped off.</li>
+<li>AES will not work without internet access because the web browser must access a javascript AES module that is not included with the browser by default; with a OTP, internet access is not necessary.</li>
+</ul>
+<p><b>Which to use: AES or OTP?</b><br>
+AES is best for most purposes because key can be used as often as needed; the key used in a OTP should only be used once. If the plaintext is much longer than the key length, AES will likely be more secure. If the key length is longer or equal to the plaintext length, a OTP would, in theory, be more secure.
+</p></div>
+<br><br>
+</main>
+</body>
+</html>
