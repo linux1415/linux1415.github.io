@@ -18,7 +18,7 @@ body {
 	font-family: sans-serif;
 	margin-left: 2em;
 	background-color: #D3D3D3;
-	width: 800px;
+	width: 400px;
 	border: 1px solid black;
 	box-shadow: 5px 5px 0 0;
 	margin-left: auto;
@@ -280,16 +280,16 @@ function Clipboard(text) {
 	<label>Plaintext:&nbsp;</label>&nbsp;&nbsp;<button type="button" onclick="clear_p()">Clear</button>
 	&nbsp;&nbsp;<label>Size:&nbsp;</label><span id="pl_size"></span>
  <br><br>
-	<textarea name="plaint" cols="85" rows="10" ></textarea><br><br>
+	<textarea name="plaint" cols="40" rows="10" ></textarea><br><br>
 	</form>
 <form name ="cipher">
 	<label>Ciphertext:&nbsp;</label>&nbsp;&nbsp;<button type="button" onclick="clear_c()">Clear</button>
  <br><br>
-	<textarea name="ciphert" cols="85" rows="10"></textarea><br><br>
+	<textarea name="ciphert" cols="40" rows="10"></textarea><br><br>
 	</form>
 <button onclick="Clipboard(document.cipher.ciphert.value)">Copy Ciphertext</button><br><br>
 <label>Key:&nbsp;</label>
-<input id="passcode" type="text" style="font-size:16pt;height:25px;width:650px;"/><br><br>
+<input id="passcode" type="text" style="font-size:12pt;height:18px;width:350px;"/><br><br>
 <label>Key Size:&nbsp;</label><span id="p_size"></span><br><br>
 <button type="button" onclick="en()">Encrypt</button>
 &nbsp;&nbsp;<button type="button" onclick="de()">Decrypt</button>
