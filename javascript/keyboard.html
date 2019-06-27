@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Database Connect</title>
+<meta charset='utf-8'>
+<style type="text/css" media="screen">
+html {
+	background-image: url("code.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;
+	background-color: black;
+}
+	
+body {
+	font-family: sans-serif;
+	background-color: black;
+	width: 700px;
+	height: 800px;
+	border: 1px solid black;
+	box-shadow: 5px 5px 0 0;
+	margin-top: 25px;
+	margin-left: auto;
+	margin-right: auto;
+	opacity: 0.9;
+	}
+	
+	
+button {
+	border-radius: 3px;
+	border: 2px solid white;
+	background-color: black;
+	color: white;
+	font-size:22pt;
+	height:50px;
+	width:50px;
+	text-align: center;
+	margin: 2px 2px 2px 2px;
+	cursor: pointer;
+}
+
+
+	
+#keyboard {
+	margin-top: 25px;
+	width:700px;
+	height: 275px;
+	text-align: center;
+	}
+	
+form {
+	width: 700px;
+	text-align: center;
+	}
+	
+h1 {
+	width: 700px;
+	text-align: center;
+	color: white;
+	}
+	
+.button {
+	border-radius: 3px;
+	border: 2px solid white;
+	background-color: black;
+	color: white;
+	font-size:22pt;
+	height:40px;
+	width:350px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+a {
+	text-decoration: none;
+}
+
+#center {
+	text-align: center;
+	margin-top: 25px;
+	margin-left: 175px;
+	}
+	
+</style>
+</head>
+<script>
+var str = "qwertyuiopasdfghjklzxcvbnm,.";
+var nums = "1234567890";
+var item;
+var to_print = "";
+var result = "";
+
+function add(x) {
+	if (x == 'back') {
+		result = result.slice(0, -1);
+		}
+	else {
+		result += x;
+		}
+	//console.log(result);
+	document.input.text.value = result;
+	}
+	
+function print_letts(x) {
+	var new_line = "\\n";
+	var back_space = 'back';
+	if (x == 'l') {
+		str = str.toLowerCase();
+		document.getElementById('buttons').innerHTML = "";
+		to_print = '';
+		document.getElementById('case').innerHTML = '<button type="button" style="width:200px;" onclick="print_letts(\'u\')">UPPERCASE</button>';
+		}
+	if (x == 'u') {
+		str = str.toUpperCase();
+		document.getElementById('buttons').innerHTML = "";
+		to_print = ''
+		document.getElementById('case').innerHTML = '<button type="button" style="width:200px;" onclick="print_letts(\'l\')">LOWERCASE</button>';
+		}
+	for (item of nums) {
+		 to_print += "<button class='keys' type='button' onclick='add(\"" + item + "\")'>" + item + "</button>";
+		 }
+	to_print += "<button type='button' style='width:120px;' onclick='add(\"" + back_space + "\")'>Back</button>";
+	to_print += "<br>";
+	for (item of str) {
+		 to_print += "<button class='keys' type='button' onclick='add(\"" + item + "\")'>" + item + "</button>";
+		 if (item == 'p' || item == 'P') {
+			to_print += '<br>';
+			}
+		if (item == 'l' || item == 'L') {
+			to_print += "<button type='button' style='width:120px;' onclick='add(\"" + new_line + "\")'>ENTER</button><br>";
+
+		 }
+	}
+	to_print += "<br><button type='button' onclick=\"add(\'\&nbsp\')\" style='width:120px;'>SPACE</button>";
+	document.getElementById('buttons').innerHTML = to_print;
+	}
+</script>
+<main>
+<body onload="print_letts('l')">
+<h1>Virtual Keyboard</h1>
+<div id="keyboard">
+<span id="buttons">
+</span>
+<span id="case">
+</span>
+</div>
+<form name="input"><br>
+<textarea name="text" style="width:600px;height:300px;font-weight:bold;font-size:18pt;" readonly></textarea>
+</form>
+<div id="center">
+<a href="web_tech_projects.html"><div class="button">Home</div></a>
+</div>
+</body>
+</main>
+</html>
