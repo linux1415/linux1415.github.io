@@ -1,0 +1,20 @@
+​Software forensics tools are grouped into command-line applications and GUI applications| true
+Making a logical acquisition of a drive with whole disk encryption can result in unreadable files.​| false
+What tool below was written for MS-DOS and was commonly used for manual digital investigations?​| norton disk edit
+In general, what would a lightweight forensics workstation consist of?​| laptop computer built into a carrying case with a small selection of peripheral options
+In what mode do most write-blockers run?​| shell mode
+Reconstructing fragments of files that have been deleted from a suspect drive, is known as ____________ in North America.​| carving
+​The ProDiscover utility makes use of the proprietary _______________ file format.| .eve
+​What is the purpose of the reconstruction function in a forensics investigation?| Re-create a suspect's drive to show what happened during a crime or incident.
+Which of the following options is not a subfunction of extraction?​| logical data copy
+In what temporary location below might passwords be stored?| pagefile.sys
+The __________ Linux Live CD includes tools such as Autopsy and Sleuth Kit, ophcrack, ​dcfldd, MemFetch, and MBoxGrep, and utilizes a KDE interface.​| kali
+What option below is an example of a platform specific encryption tool?| BitLocker
+What hex value is the standard indicator for jpeg graphics files?​| FF D8
+Passwords are typically stored as one-way _____________ rather than in plaintext.​| hash
+What program serves as the GUI front end for accessing Sleuth Kit's tools?​| autopsy
+Which of the following is stated within the ISO 27037 standard?​| Digital first responders should use validated tools
+The physical data copy subfunction exists under the ______________ function.​| aqcuisition
+A keyword search is part of the ​analysis process within what forensic function?| extraction
+​What algorithm is used to decompress Windows files?| lempel-ziv
+What is the goal of the NSRL project, created by NIST?​| collect known hash values for commercial software and OS files using SHA hashes

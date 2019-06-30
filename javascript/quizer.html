@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	
+<head> 
+<title>Quizer</title>
+<meta charset="utf-8">
+
+
+<style media="screen" type="text/css">
+	
+body {
+	font-family: sans-serif;
+	margin-left: 2em;
+	width: 1000px;
+	height: 600px;
+	border: 1px solid black;
+	box-shadow: 5px 5px 0 0;
+	margin-left: auto;
+	margin-right: auto;
+	}
+
+html {
+}
+
+#questions {
+	border: 2px solid black;
+	width: 800px;
+	height: 250px;
+}
+
+#questions h2{
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
+#right {
+	float: right;
+	margin-right: 8em;
+}
+
+main {
+	margin-left: 2em;
+	margin-right: 2em;
+	}
+	
+
+#top {
+	float: left;
+	margin-left: 2em;
+	margin-top: 1em;
+	}
+	
+#top_right {
+	float: right;
+	margin-right: 10em;
+	margin-top: 1em;
+	}
+
+
+button {
+	font-weight: bold;
+	font-size: 125%;
+	border: 1px solid black;
+	background-color: darkgray;
+	}
+
+</style>
+
+</head>
+<div id = "top">
+<label>Choose Question File:&nbsp;</label><input type="file" name="file" id="file">
+</div>
+<div id = "top_right">
+<form>
+<input type="radio" name="choice" id="rev" >Reveal Answers<br>
+<input type="radio" name="choice" id="hide" checked>Keep Answers Hidden<br>
+</form>
+</div>
+<script>
+	var main_list = [];
+	var count;
+	document.getElementById('file').onchange = function(){
+	count = -1;
+	var file = this.files[0];
+	var reader = new FileReader();
+	reader.onload = function(progressEvent){
+    var lines = this.result.split('\n');
+    for(var line = 0; line < lines.length; line++){
+      if (lines[line].trim() == "") continue;
+      var list = (lines[line]).split('|');
+	  main_list.push([list[0], list[1]]);
+    }
+  };
+  reader.readAsText(file);
+
+};
+
+function Next() {
+	if (main_list.length < 1)
+		return;
+	count += 1;
+	if (count == main_list.length)
+		count = 0;
+	document.getElementById('quest').innerHTML = "<h2>" + main_list[count][0] + "</h2>";
+	document.getElementById('button').innerHTML = "Next";
+	if (document.getElementById('rev').checked) {
+		document.getElementById('ans').innerHTML = "<h2><em>" + main_list[count][1] + "</em></h2>";
+		document.getElementById('to_reveal').innerHTML = "";
+		}
+	if (document.getElementById('hide').checked) {
+		document.getElementById('ans').innerHTML = "";
+		document.getElementById('to_reveal').innerHTML = "<button type='button' onclick='Reveal()'>Reveal</button>";
+		}
+	document.getElementById('numbering').innerHTML = "<br>" + (parseInt(count) + parseInt(1)) + " / " + main_list.length;
+}
+
+function Back() {
+	if (main_list.length < 1)
+		return;
+	if (count == 0 || count == -1)
+		count = main_list.length - 1;
+	else
+		count -= 1;
+	document.getElementById('quest').innerHTML = "<h2>" + main_list[count][0] + "</h2>";
+	document.getElementById('button').innerHTML = "Next";
+	if (document.getElementById('rev').checked) {
+		document.getElementById('ans').innerHTML = "<h2><em>" + main_list[count][1] + "</em></h2>";
+		document.getElementById('to_reveal').innerHTML = "";
+		}
+	if (document.getElementById('hide').checked) {
+		document.getElementById('ans').innerHTML = "";
+		document.getElementById('to_reveal').innerHTML = "<button type='button' onclick='Reveal()'>Reveal</button>";
+		}
+	document.getElementById('numbering').innerHTML = "<br>" + (parseInt(count) + parseInt(1)) + " / " + main_list.length;
+}
+
+function Reveal() {
+	document.getElementById('ans').innerHTML = "<h2><em>" + main_list[count][1] + "</em></h2>";
+}
+
+function Reset() {
+	if (main_list.length < 1)
+		return;
+	main_list = [];
+	count = -1;
+	document.getElementById('ans').innerHTML = "";
+	document.getElementById('quest').innerHTML = "";
+	document.getElementById('numbering').innerHTML = "";
+	document.getElementById('button').innerHTML = "Go";
+}
+
+function Discard() {
+	if (main_list.length < 1)
+		return;
+	main_list.splice(count, 1);
+	count -= 1;
+	Next();
+}
+</script>
+
+
+<main>
+<body>
+<br><br>
+<h1>Quizer</h1>
+<span id="numbering">&nbsp;</span>
+<br><br>
+<div id="questions">
+<span id="quest"></span>
+<span id="ans"></span>
+</div>
+<br><br>
+<button type="button" onclick="Next()"><span id="button">GO</span></button>&nbsp;
+<button type="button" onclick="Back()">Back</button>&nbsp;
+<span id="to_reveal"></span>
+<div id="right">
+<button type="button" onclick="Discard()">Discard</button>&nbsp;
+<button type="button" onclick="Reset()">Reset</button>&nbsp;
+</div>
+<br><br>
+	
+</body>
+</main>
+
+</html>
